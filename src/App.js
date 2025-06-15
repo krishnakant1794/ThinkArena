@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom'; import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSection';
 import QuizSetupForm from './components/QuizSetupForm';
@@ -9,6 +10,7 @@ import AboutPage from './components/AboutPage';
 import NotFound from './components/NotFound';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import './App.css';
+
 function App() {
     const [playerInfo, setPlayerInfo] = useLocalStorage('currentPlayer', null);
     const [quizResults, setQuizResults] = useState(null);
@@ -23,31 +25,31 @@ function App() {
             <NavBar />
             <main>
                 <Router>
-                <Routes>
+                    <Routes>
 
-                    <Route path="/" element={<HeroSection />} />
-
-
-                    <Route path="/setup" element={<QuizSetupForm onQuizStart={handleQuizSetup} />} />
+                        <Route path="/" element={<HeroSection />} />
 
 
-                    <Route
-                        path="/quiz/start"
-                        element={<QuizPage playerInfo={playerInfo} setQuizResults={setQuizResults} />}
-                    />
+                        <Route path="/setup" element={<QuizSetupForm onQuizStart={handleQuizSetup} />} />
 
 
-                    <Route path="/results" element={<ResultsDisplay quizResults={quizResults} />} />
+                        <Route
+                            path="/quiz/start"
+                            element={<QuizPage playerInfo={playerInfo} setQuizResults={setQuizResults} />}
+                        />
 
 
-                    <Route path="/scores" element={<ScoresLeaderboard />} />
+                        <Route path="/results" element={<ResultsDisplay quizResults={quizResults} />} />
 
 
-                    <Route path="/about" element={<AboutPage />} />
+                        <Route path="/scores" element={<ScoresLeaderboard />} />
 
 
-                    <Route path="*" element={<NotFound />} />
-                 </Routes>
+                        <Route path="/about" element={<AboutPage />} />
+
+
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
                 </Router>
             </main>
         </>
