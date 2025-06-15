@@ -1,0 +1,91 @@
+.results-container {
+        padding: 3rem;
+    background-color: #ffc107;
+}
+
+.results-container h2 {
+    font-size: 2.8rem;
+    color: #28a745;     margin-bottom: 2.5rem;
+}
+
+.results-summary p {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #5c5a5a;
+}
+
+.results-summary p strong {
+    color: #5c4403; }
+
+.motivational-message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    color: rgb(172, 190, 6); }
+
+.motivational-message.champion {
+    background-color: #28a745; }
+.motivational-message.great {
+    background-color: #007bff; }
+.motivational-message.good {
+    background-color: #ffc107;     color: #333; }
+.motivational-message.try-again {
+    background-color: #db4c4c; }
+
+.performance-stats {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 6px dashed #880606;
+    text-align: left;
+}
+
+.performance-stats h3 {
+    font-size: 1.8rem;
+    color: #5f3e01;
+    margin-bottom: 1.5rem;
+}
+
+.performance-stats p {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #472902;
+}
+
+.performance-stats p span {
+    font-weight: bold;
+    color: #dd7907;
+}
+
+.play-again-btn,
+.view-scores-btn {
+    margin-top: 2.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+
+.play-again-btn {
+    background-color: #352700;     margin-right: 1.5rem;
+}
+
+.play-again-btn:hover {
+    background-color: #5a6268;
+}
+
+.view-scores-btn {
+    background-color: #d44107; }
+
+.view-scores-btn:hover {
+    background-color: #138496;
+}
+
+.results-container.loading-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+    font-size: 1.2rem;
+}

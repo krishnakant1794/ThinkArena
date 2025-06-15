@@ -1,0 +1,76 @@
+.leaderboard-container {
+        padding: 3rem;
+}
+
+.leaderboard-container h2 {
+    font-size: 2.8rem;
+    color: #17a2b8;     margin-bottom: 2.5rem;
+}
+
+.leaderboard-container p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.table-responsive {
+    overflow-x: auto;     margin-top: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.leaderboard-container table {
+    width: 100%;
+    min-width: 600px;     border-collapse: collapse;
+    background-color: #fff;
+    font-size: 1.1rem;
+}
+
+.leaderboard-container th,
+.leaderboard-container td {
+    border: 1px solid #e9ecef;     padding: 1.2rem;
+    text-align: left;
+}
+
+.leaderboard-container th {
+    background-color: #f8f9fa;     font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap; }
+
+.leaderboard-container th:hover {
+    background-color: #e2e6ea;
+}
+
+.leaderboard-container tbody tr:nth-child(even) {
+    background-color: #f6f8fa; }
+
+.leaderboard-container tbody tr:hover {
+    background-color: #eaf2f6;     transition: background-color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .leaderboard-container {
+        padding: 1.5rem;
+    }
+
+    .leaderboard-container h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .leaderboard-container th,
+    .leaderboard-container td {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .leaderboard-container {
+        padding: 1rem;
+    }
+    .leaderboard-container th,
+    .leaderboard-container td {
+        min-width: 80px;     }
+}
