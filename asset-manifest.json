@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/ThinkArena/static/css/main.5c787366.css",
+    "main.js": "/ThinkArena/static/js/main.9a80acd9.js",
+    "static/js/453.fc01f49c.chunk.js": "/ThinkArena/static/js/453.fc01f49c.chunk.js",
+    "static/media/meme2.jpg": "/ThinkArena/static/media/meme2.35143c72487ac4b3696b.jpg",
+    "static/media/selected.png": "/ThinkArena/static/media/selected.77a6d36909910ecfde60.png",
+    "static/media/meme1.gif": "/ThinkArena/static/media/meme1.b00a199edb08347fff70.gif",
+    "index.html": "/ThinkArena/index.html",
+    "main.5c787366.css.map": "/ThinkArena/static/css/main.5c787366.css.map",
+    "main.9a80acd9.js.map": "/ThinkArena/static/js/main.9a80acd9.js.map",
+    "453.fc01f49c.chunk.js.map": "/ThinkArena/static/js/453.fc01f49c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5c787366.css",
+    "static/js/main.9a80acd9.js"
+  ]
+}
