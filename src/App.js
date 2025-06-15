@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom'; import NavBar from './components/NavBar';
+import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSection';
 import QuizSetupForm from './components/QuizSetupForm';
 import QuizPage from './components/QuizPage';
