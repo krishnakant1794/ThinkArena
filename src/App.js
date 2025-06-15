@@ -1,8 +1,7 @@
-// src/App.js (CORRECTED CODE)
+
 
 import React, { useState } from 'react';
-// REMOVE this line: import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-// ONLY IMPORT Routes and Route here, as Router is provided by index.js
+
 import { Routes, Route } from 'react-router-dom'; 
 
 import NavBar from './components/NavBar';
@@ -29,8 +28,7 @@ function App() {
         <>
             <NavBar />
             <main>
-                {/* REMOVE <Router> here. App is already wrapped by Router in index.js */}
-                {/* <Router>  <--- DELETE THIS LINE */} 
+               
                     <Routes>
                         <Route path="/" element={<HeroSection />} />
                         <Route path="/setup" element={<QuizSetupForm onQuizStart={handleQuizSetup} />} />
@@ -43,7 +41,7 @@ function App() {
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-                {/* </Router> <--- DELETE THIS LINE */}
+               
             </main>
         </>
     );
