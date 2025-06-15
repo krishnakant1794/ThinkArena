@@ -22,6 +22,7 @@ function App() {
         <>
             <NavBar />
             <main>
+                <Router>
                 <Routes>
 
                     <Route path="/" element={<HeroSection />} />
@@ -46,7 +47,8 @@ function App() {
 
 
                     <Route path="*" element={<NotFound />} />
-                </Routes>
+                 </Routes>
+                </Router>
             </main>
         </>
     );
