@@ -19,7 +19,6 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
 
     const timerRef = useRef(null);
 
-    // handleAnswerSelect function definition moved UP, before its use in useEffect
     const handleAnswerSelect = useCallback((answer) => {
         if (isAnswerLocked) return;
         setIsAnswerLocked(true);
@@ -123,8 +122,9 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
     if (!playerInfo || filteredQuestions.length === 0) {
         return (
             <div className="quiz-container loading-state">
-                <p>No quiz results to display. Please complete a quiz first.</p>
-                <button onClick={() => navigate('/setup')}>Start New Quiz</button>
+                Loading quiz or no questions available for this category/difficulty.
+                <br/>
+                Please ensure you've selected a category and difficulty on the <Link to="/setup">Start Quiz</Link> page.
             </div>
         );
     }
