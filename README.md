@@ -35,7 +35,7 @@ To get ThinkArena up and running on your local machine, follow these steps:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/krishnakant1794/ThinkArena.git](https://github.com/krishnakant1794/ThinkArena.git)
+    git clone [https://github.com/krishnakant1794/ThinkArena.git]
     ```
 2.  **Navigate to the Project Directory:**
     ```bash
