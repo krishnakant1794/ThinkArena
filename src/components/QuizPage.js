@@ -19,46 +19,7 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
 
     const timerRef = useRef(null);
 
-    useEffect(() => {
-        if (!playerInfo) {
-            navigate('/setup');
-            return;
-        }
-        const filtered = questionsData.filter(q =>
-            q.category === playerInfo.category && q.difficulty === playerInfo.difficulty
-        ).sort(() => Math.random() - 0.5);
-        setFilteredQuestions(filtered);
-        setQuizStartTime(Date.now());
-        setCurrentQuestionIndex(0);
-        setScore(0);
-        setCorrectAnswersCount(0);
-        setQuestionTimings([]);
-    }, [playerInfo, navigate]);
-
-    useEffect(() => {
-        if (filteredQuestions.length === 0 || currentQuestionIndex >= filteredQuestions.length) {
-            clearInterval(timerRef.current);
-            return;
-        }
-
-        setTimer(QUESTION_TIMER_SECONDS);
-        setIsAnswerLocked(false);
-        setSelectedAnswer(null);
-
-        timerRef.current = setInterval(() => {
-            setTimer((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timerRef.current);
-                    handleAnswerSelect(null);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(timerRef.current);
-    }, [currentQuestionIndex, filteredQuestions.length, handleAnswerSelect]);
-
+    // handleAnswerSelect function definition moved UP, before its use in useEffect
     const handleAnswerSelect = useCallback((answer) => {
         if (isAnswerLocked) return;
         setIsAnswerLocked(true);
@@ -119,12 +80,51 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
         questionTimings
     ]);
 
+    useEffect(() => {
+        if (!playerInfo) {
+            navigate('/setup');
+            return;
+        }
+        const filtered = questionsData.filter(q =>
+            q.category === playerInfo.category && q.difficulty === playerInfo.difficulty
+        ).sort(() => Math.random() - 0.5);
+        setFilteredQuestions(filtered);
+        setQuizStartTime(Date.now());
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setCorrectAnswersCount(0);
+        setQuestionTimings([]);
+    }, [playerInfo, navigate]);
+
+    useEffect(() => {
+        if (filteredQuestions.length === 0 || currentQuestionIndex >= filteredQuestions.length) {
+            clearInterval(timerRef.current);
+            return;
+        }
+
+        setTimer(QUESTION_TIMER_SECONDS);
+        setIsAnswerLocked(false);
+        setSelectedAnswer(null);
+
+        timerRef.current = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerRef.current);
+                    handleAnswerSelect(null);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timerRef.current);
+    }, [currentQuestionIndex, filteredQuestions.length, handleAnswerSelect]);
+
     if (!playerInfo || filteredQuestions.length === 0) {
         return (
             <div className="quiz-container loading-state">
-                Loading quiz or no questions available for this category/difficulty.
-                <br/>
-                Please ensure you've selected a category and difficulty on the <Link to="/setup">Start Quiz</Link> page.
+                <p>No quiz results to display. Please complete a quiz first.</p>
+                <button onClick={() => navigate('/setup')}>Start New Quiz</button>
             </div>
         );
     }
