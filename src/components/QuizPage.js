@@ -1,85 +1,111 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; import questionsData from '../data/questions'; import QuizQuestion from '../components/QuizQuestion';
+import { useNavigate, Link } from 'react-router-dom';
+import questionsData from '../data/questions';
+import QuizQuestion from '../components/QuizQuestion';
 
-const QUESTION_TIMER_SECONDS = 15; 
+const QUESTION_TIMER_SECONDS = 15;
+
 const QuizPage = ({ playerInfo, setQuizResults }) => {
     const navigate = useNavigate();
     const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [score, setScore] = useState(0);     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);     const [isAnswerLocked, setIsAnswerLocked] = useState(false);     const [timer, setTimer] = useState(QUESTION_TIMER_SECONDS);     const [quizStartTime, setQuizStartTime] = useState(null);     const [totalTimeTaken, setTotalTimeTaken] = useState(0);     const [questionTimings, setQuestionTimings] = useState([]); 
-    const timerRef = useRef(null); 
-        useEffect(() => {
+    const [score, setScore] = useState(0);
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [isAnswerLocked, setIsAnswerLocked] = useState(false);
+    const [timer, setTimer] = useState(QUESTION_TIMER_SECONDS);
+    const [quizStartTime, setQuizStartTime] = useState(null);
+    const [questionTimings, setQuestionTimings] = useState([]);
+
+    const timerRef = useRef(null);
+
+    useEffect(() => {
         if (!playerInfo) {
-                        navigate('/setup');
+            navigate('/setup');
             return;
         }
         const filtered = questionsData.filter(q =>
             q.category === playerInfo.category && q.difficulty === playerInfo.difficulty
-        ).sort(() => Math.random() - 0.5);         setFilteredQuestions(filtered);
-        setQuizStartTime(Date.now());                 setCurrentQuestionIndex(0);
+        ).sort(() => Math.random() - 0.5);
+        setFilteredQuestions(filtered);
+        setQuizStartTime(Date.now());
+        setCurrentQuestionIndex(0);
         setScore(0);
         setCorrectAnswersCount(0);
         setQuestionTimings([]);
     }, [playerInfo, navigate]);
 
-        useEffect(() => {
-                if (filteredQuestions.length === 0 || currentQuestionIndex >= filteredQuestions.length) {
-            clearInterval(timerRef.current);             return;
+    useEffect(() => {
+        if (filteredQuestions.length === 0 || currentQuestionIndex >= filteredQuestions.length) {
+            clearInterval(timerRef.current);
+            return;
         }
 
-                setTimer(QUESTION_TIMER_SECONDS);
+        setTimer(QUESTION_TIMER_SECONDS);
         setIsAnswerLocked(false);
         setSelectedAnswer(null);
 
-                timerRef.current = setInterval(() => {
+        timerRef.current = setInterval(() => {
             setTimer((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerRef.current);
-                    handleAnswerSelect(null);                     return 0;
+                    handleAnswerSelect(null);
+                    return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
 
-                return () => clearInterval(timerRef.current);
-    }, [currentQuestionIndex, filteredQuestions.length]); 
-        const handleAnswerSelect = useCallback((answer) => {
-        if (isAnswerLocked) return; 
-        setIsAnswerLocked(true);         setSelectedAnswer(answer);         clearInterval(timerRef.current); 
+        return () => clearInterval(timerRef.current);
+    }, [currentQuestionIndex, filteredQuestions.length, handleAnswerSelect]);
+
+    const handleAnswerSelect = useCallback((answer) => {
+        if (isAnswerLocked) return;
+        setIsAnswerLocked(true);
+        setSelectedAnswer(answer);
+        clearInterval(timerRef.current);
+
         const currentQuestion = filteredQuestions[currentQuestionIndex];
-        const timeTakenForQuestion = QUESTION_TIMER_SECONDS - timer; 
-                setQuestionTimings(prev => [...prev, {
+        const timeTakenForQuestion = QUESTION_TIMER_SECONDS - timer;
+
+        setQuestionTimings(prev => [...prev, {
             questionId: currentQuestion.id,
             timeTaken: timeTakenForQuestion,
             isCorrect: answer === currentQuestion.correctAnswer
         }]);
 
-                if (answer === currentQuestion.correctAnswer) {
+        if (answer === currentQuestion.correctAnswer) {
             setScore(prev => prev + 1);
             setCorrectAnswersCount(prev => prev + 1);
         }
 
-                setTimeout(() => {
+        setTimeout(() => {
             if (currentQuestionIndex < filteredQuestions.length - 1) {
-                                setCurrentQuestionIndex(prev => prev + 1);
+                setCurrentQuestionIndex(prev => prev + 1);
             } else {
-                                const endTime = Date.now();
-                                const totalQuizTime = Math.floor((endTime - quizStartTime) / 1000);
-                setTotalTimeTaken(totalQuizTime);
+                const endTime = Date.now();
+                const totalQuizTime = Math.floor((endTime - quizStartTime) / 1000);
 
-                                const finalResults = {
+                const finalResults = {
                     playerName: playerInfo.playerName,
-                    score: score + (answer === currentQuestion.correctAnswer ? 1 : 0),                     correctAnswers: correctAnswersCount + (answer === currentQuestion.correctAnswer ? 1 : 0),
+                    score: score + (answer === currentQuestion.correctAnswer ? 1 : 0),
+                    correctAnswers: correctAnswersCount + (answer === currentQuestion.correctAnswer ? 1 : 0),
                     totalTimeTaken: totalQuizTime,
-                    questionTimings: [...questionTimings, {                         questionId: currentQuestion.id,
+                    questionTimings: [...questionTimings, {
+                        questionId: currentQuestion.id,
                         timeTaken: timeTakenForQuestion,
                         isCorrect: answer === currentQuestion.correctAnswer
                     }],
-                    date: new Date().toISOString(),                     category: playerInfo.category,                     difficulty: playerInfo.difficulty,                 };
+                    date: new Date().toISOString(),
+                    category: playerInfo.category,
+                    difficulty: playerInfo.difficulty,
+                };
 
-                setQuizResults(finalResults);                 navigate('/results');             }
-        }, 1500);     }, [
+                setQuizResults(finalResults);
+                navigate('/results');
+            }
+        }, 1500);
+    }, [
         filteredQuestions,
         currentQuestionIndex,
         isAnswerLocked,
@@ -90,9 +116,10 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
         score,
         correctAnswersCount,
         quizStartTime,
-        questionTimings     ]);
+        questionTimings
+    ]);
 
-        if (!playerInfo || filteredQuestions.length === 0) {
+    if (!playerInfo || filteredQuestions.length === 0) {
         return (
             <div className="quiz-container loading-state">
                 Loading quiz or no questions available for this category/difficulty.
@@ -102,8 +129,8 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
         );
     }
 
-        const currentQuestion = filteredQuestions[currentQuestionIndex];
-        const progress = Math.round(((currentQuestionIndex + 1) / filteredQuestions.length) * 100);
+    const currentQuestion = filteredQuestions[currentQuestionIndex];
+    const progress = Math.round(((currentQuestionIndex + 1) / filteredQuestions.length) * 100);
 
     return (
         <div className="quiz-container">
@@ -122,7 +149,8 @@ const QuizPage = ({ playerInfo, setQuizResults }) => {
                 onAnswerSelect={handleAnswerSelect}
                 selectedAnswer={selectedAnswer}
                 isAnswerLocked={isAnswerLocked}
-                timer={timer}             />
+                timer={timer}
+            />
         </div>
     );
 };

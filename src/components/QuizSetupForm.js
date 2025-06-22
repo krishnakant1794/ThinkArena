@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLocalStorage } from '../hooks/useLocalStorage'; import './QuizSetupForm.css'; 
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import './QuizSetupForm.css';
+
 const QuizSetupForm = ({ onQuizStart }) => {
     const [playerName, setPlayerName] = useState('');
     const [category, setCategory] = useState('');
     const [difficulty, setDifficulty] = useState('');
     const navigate = useNavigate();
-            const [_, setStoredPlayerInfo] = useLocalStorage('currentPlayer', null);
+    const [, setStoredPlayerInfo] = useLocalStorage('currentPlayer', null);
 
-        const isFormValid = playerName.trim() !== '' && category !== '' && difficulty !== '';
+    const isFormValid = playerName.trim() !== '' && category !== '' && difficulty !== '';
 
     const handleSubmit = (e) => {
-        e.preventDefault();         if (isFormValid) {
+        e.preventDefault();
+        if (isFormValid) {
             const playerInfo = { playerName, category, difficulty };
-            onQuizStart(playerInfo);             setStoredPlayerInfo(playerInfo);             navigate('/quiz/start');         }
+            onQuizStart(playerInfo);
+            setStoredPlayerInfo(playerInfo);
+            navigate('/quiz/start');
+        }
     };
 
-        const categories = [
+    const categories = [
         { label: 'Jee Mains', value: 'Jee Mains' },
         { label: 'Jee Advance 2025', value: 'Jee Advance 2025' },
         { label: 'General Knowledge', value: 'general-knowledge' },
@@ -25,9 +31,9 @@ const QuizSetupForm = ({ onQuizStart }) => {
         { label: 'Mathematics', value: 'mathematics' },
         { label: 'Sports', value: 'sports' },
         { label: 'Geography', value: 'geography' },
-            ];
+    ];
 
-        const difficulties = [
+    const difficulties = [
         { label: 'Easy', value: 'easy' },
         { label: 'Medium', value: 'medium' },
         { label: 'Hard', value: 'hard' },
@@ -45,7 +51,8 @@ const QuizSetupForm = ({ onQuizStart }) => {
                         value={playerName}
                         onChange={(e) => setPlayerName(e.target.value)}
                         placeholder="Enter your name"
-                        required                     />
+                        required
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="category">Quiz Category:</label>

@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import './ResultsDisplay.css'; 
+import './ResultsDisplay.css';
+
 const ResultsDisplay = ({ quizResults }) => {
     const navigate = useNavigate();
-        const [pastScores, setPastScores] = useLocalStorage('pastScores', []);
+    const [, setPastScores] = useLocalStorage('pastScores', []);
 
-        useEffect(() => {
+    useEffect(() => {
         if (!quizResults) {
-                        navigate('/');
+            navigate('/');
             return;
         }
-                setPastScores(prevScores => [...prevScores, quizResults]);
-    }, [quizResults, navigate, setPastScores]); 
-        if (!quizResults) {
+        setPastScores(prevScores => [...prevScores, quizResults]);
+    }, [quizResults, navigate, setPastScores]);
+
+    if (!quizResults) {
         return (
             <div className="results-container loading-state">
                 <p>No quiz results to display. Please complete a quiz first.</p>
@@ -26,8 +28,9 @@ const ResultsDisplay = ({ quizResults }) => {
     const totalQuestions = questionTimings ? questionTimings.length : 0;
     const percentage = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
 
-        let motivationalMessage = '';
-    let messageClass = '';     if (percentage >= 90) {
+    let motivationalMessage = '';
+    let messageClass = '';
+    if (percentage >= 90) {
         motivationalMessage = 'Quiz Champion! An outstanding performance!';
         messageClass = 'champion';
     } else if (percentage >= 70) {
@@ -41,7 +44,7 @@ const ResultsDisplay = ({ quizResults }) => {
         messageClass = 'try-again';
     }
 
-            const validTimings = questionTimings.filter(q => q.timeTaken !== undefined && q.timeTaken !== null);
+    const validTimings = questionTimings.filter(q => q.timeTaken !== undefined && q.timeTaken !== null);
 
     const fastestAnswerTime = validTimings.length > 0
         ? Math.min(...validTimings.map(q => q.timeTaken))
@@ -50,7 +53,6 @@ const ResultsDisplay = ({ quizResults }) => {
         ? Math.max(...validTimings.map(q => q.timeTaken))
         : 'N/A';
 
-    
     return (
         <div className="results-container">
             <h2>Quiz Results</h2>
@@ -67,7 +69,6 @@ const ResultsDisplay = ({ quizResults }) => {
                     <h3>Performance Insights:</h3>
                     <p>Fastest Answer Time: <span>{fastestAnswerTime}</span> seconds</p>
                     <p>Slowest Answer Time: <span>{slowestAnswerTime}</span> seconds</p>
-                   
                 </div>
             )}
 
